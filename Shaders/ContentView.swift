@@ -14,12 +14,14 @@ struct ContentView: View {
     var body: some View {
         VStack {
           TimelineView(.animation) { tl in 
-            let time = start.distance(to: tl.date)
+            let elapsed = start.distance(to: tl.date)
             
             Image(systemName: "figure.walk.circle")
               .font(.system(size: 300))
               .foregroundStyle(.blue)
-              .colorEffect(ShaderLibrary.rainbow(.float(time)))
+              .distortionEffect(ShaderLibrary.wave(.float(elapsed)),
+                           maxSampleOffset: .zero
+              )
           }
         }
         .padding()

@@ -8,6 +8,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
+/* color effects */
 /* passtrough takes a color and returns the same color */
 [[ stitchable ]] half4 passthrough(float2 pos, half4 color) {
   return color;
@@ -36,4 +37,11 @@ using namespace metal;
                sin(angle + 2),
                sin(angle + 4),
                color.a);
+}
+
+/* distortion effects */
+/* wave from 1 to -1*/
+[[ stitchable ]] float2 wave(float2 pos,float time) {
+  pos.y += sin(time * 5 + pos.y / 20) * 5;
+  return pos;
 }
