@@ -27,3 +27,13 @@ using namespace metal;
 [[ stitchable ]] half4 gradient(float2 pos, half4 color) {
   return half4(pos.x / pos.y, 0, pos.y / pos.x, color.a);
 }
+
+/* takes extra time argument and changes over time */
+[[ stitchable ]] half4 rainbow( float2 pos, half4 color, float time) {
+  float angle = atan2(pos.y, pos.x) + time;
+  return half4(
+               sin(angle),
+               sin(angle + 2),
+               sin(angle + 4),
+               color.a);
+}
