@@ -66,6 +66,7 @@ using namespace metal;
   float totalZoom = 1;
   if (distance < maxDistance) {
     totalZoom /= 2; // half the zoom
+    totalZoom += distance * 10; // undo the zoom
   }
   float2 newPos = delta * totalZoom + center;
   return layer.sample(newPos * size);

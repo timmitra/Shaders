@@ -18,7 +18,7 @@ struct ContentView: View {
           TimelineView(.animation) { tl in 
             let elapsed = start.distance(to: tl.date)
             
-            Image("Flag_of_Canada")
+            Image("jeff-shot")
               .visualEffect { content, proxy in
                 content
                   .layerEffect(ShaderLibrary.loupe(.float2(proxy.size), .float2(touch)
