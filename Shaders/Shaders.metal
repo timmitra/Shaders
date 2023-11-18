@@ -7,6 +7,7 @@
 
 #include <metal_stdlib>
 using namespace metal;
+#include <SwiftUI/SwiftUI_Metal.h>
 
 /* color effects */
 /* passtrough takes a color and returns the same color */
@@ -45,3 +46,28 @@ using namespace metal;
   pos.y += sin(time * 5 + pos.y / 20) * 5;
   return pos;
 }
+
+/* relative wave with UV */
+[[ stitchable ]] float2 relativeWave(float2 pos, float time, float2 size) {
+  float2 distance = pos / size;
+  pos.y += sin(time * 5 + pos.y / 20) * distance.x * 10;
+  return pos;
+}
+
+/* layer effect */
+[[ stitchable ]] half4 loupe(float2 pos, SwiftUI::Layer layer, float2 size, float2 touch) {
+  float maxDistance = 0.05;
+  float2 uv = pos / size;
+  float2 center = touch / size;
+  float2 delta = uv - center;
+  float aspectRatio = size.x / size.y;
+  /* how far from user's touch is the pixel */
+  float distance = (delta.x * delta.x) + (delta.y * delta.y) / aspectRatio;
+  float totalZoom = 1;
+  if (distance < maxDistance) {
+    totalZoom /= 2; // half the zoom
+  }
+  float2 newPos = delta * totalZoom + center;
+  return layer.sample(newPos * size);
+}
+
